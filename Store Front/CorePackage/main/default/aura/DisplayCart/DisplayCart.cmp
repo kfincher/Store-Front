@@ -1,0 +1,14 @@
+<aura:component controller="ProductDisplayController">
+    <aura:attribute name="CartList" type="List"/>
+    
+    <aura:registerEvent name="cmpReturnEvent" type="c:ChangeDisplayComponent"/> 
+    
+    <lightning:button disabled="false" label="Products" title="Products" onclick="{!c.gotoProducts}"/> 
+    <br/>
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+	<aura:iteration items="{!v.CartList}" var="cart">
+    	<lightning:button disabled="false" label="Remove" title="Remove" onclick="{!c.removeItem}" value="{!cart.Item__r.Id}"/>
+        {!cart.Item__r.Name} x{!cart.Quantity}
+        <br/>
+    </aura:iteration>
+</aura:component>

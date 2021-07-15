@@ -1,0 +1,44 @@
+<!--
+
+ Name: ProductDisplayList	
+ Author: Kameron Fincher
+ Description: List out all products for a given category
+ 
+-->
+<aura:component controller="ProductDisplayController">
+    <aura:attribute name="column" type="List"/>
+    <aura:attribute name="allProducts" type="List"/>
+    <aura:attribute name="currProductList" type="List"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <aura:registerEvent name="cmpReturnEvent" type="c:ChangeDisplayComponent"/> 
+    
+    <!--<div class="productImage">here</div>-->
+    <div id="cart" class="slds-grid">
+        <div class="slds-size_9-of-12"/>
+        <div class="slds-size_3-of-12">
+            <lightning:button disabled="false" label="Cart" title="Cart" onclick="{!c.gotoCart}"/> 
+        </div>
+    </div>
+    <lightning:navigation aura:id="navService"/>
+    <div id="container">
+        <div class="slds-grid slds-wrap">
+            <aura:iteration items="{!v.currProductList}" var="item">
+                
+                <div class="slds-size_3-of-12">  
+                    <img src="{!item.DisplayURL__c}" class="productImage slds-align_absolute-center" style="height:200px"/>
+                    <br/>
+                    <div class="slds-align_absolute-center">
+                        {!item.Name} 
+                    </div>
+                    <div class="slds-align_absolute-center">
+                        <lightning:button disabled="false" label="Add to Cart" title="Add to Cart" onclick="{!c.addItem}" value="{!item.Id}"/> 
+                    </div>
+                    
+                </div>
+                
+            </aura:iteration>
+        </div>
+    </div>
+</aura:component>
