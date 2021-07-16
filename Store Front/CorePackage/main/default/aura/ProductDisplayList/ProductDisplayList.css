@@ -2,6 +2,13 @@
     width:200px;
     height:200px;
 }
+.THIS {
+    background-color:#303030;
+    color: white;
+}
+.THIS.pointer {
+    cursor: pointer;
+}
 #container.THIS {
-    width:1000px;
+    width:1200px;
 }

@@ -1,0 +1,5 @@
+<aura:component extends="c:BaseComponent">
+	<aura:attribute name="fields" type="String[]" default="['Address__c']" />
+    
+    <lightning:recordForm objectApiName="Purchase__c" fields="{!v.fields}" oncancel="{! c.HideComponent }" onsuccess="{! c.SubmitClick }" />
+</aura:component>

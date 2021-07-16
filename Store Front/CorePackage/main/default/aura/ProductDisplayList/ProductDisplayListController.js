@@ -5,7 +5,10 @@
     addItem : function(component, event, helper){
     	helper.addItem(component, event);
 	},
+    individualItem : function(component, event, helper){
+    	helper.individualItem(component, event, event.currentTarget.dataset.id);
+	},
     gotoCart : function(component, event, helper){
-        helper.gotoCart(component, event);
+        helper.gotoComponent(component, event, "Cart");
     }
 })

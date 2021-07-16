@@ -1,0 +1,10 @@
+<aura:component controller="ProductDisplayController" extends="c:BaseComponent">
+    <aura:attribute name="RecordId" type="String"/>
+    <aura:attribute name="Product" type="Object"/>
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <lightning:button disabled="false" label="Products" title="Products" onclick="{!c.gotoProducts}"/> 
+    here
+    {!v.Product.Name}
+    here
+</aura:component>

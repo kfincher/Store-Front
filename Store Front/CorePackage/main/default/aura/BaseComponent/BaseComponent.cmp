@@ -1,0 +1,5 @@
+<aura:component extensible="true" abstract="true">
+	<aura:registerEvent name="cmpReturnEvent" type="c:ChangeDisplayComponent"/> 
+    <aura:registerEvent name="IdReturnEvent" type="c:PassRecordId"/> 
+    {!v.body}
+</aura:component>

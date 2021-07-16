@@ -27,8 +27,7 @@
     },
     updateView : function(component, event){
         var action = component.get("c.search");
-        console.log('here');
-        action.setParams({filter:"hey"});
+        action.setParams({filter:component.get("v.productFilter")});
         
         action.setCallback(this,function(data){
             if(data.getState()==="SUCCESS"){
@@ -36,7 +35,6 @@
                 //console.log(data.getReturnValue())
                 let row = data.getReturnValue();
                 for(var i=0;i<row.length;i++){
-                    console.log(row[i]);
                     if(row[i].DisplayURL__c==null){
                         row[i].DisplayURL__c = "https://www.kwizineenstock.ca/assets/img/frontend/none.png";	
                     }
@@ -50,7 +48,6 @@
         $A.enqueueAction(action);
     },
     addItem : function(component, event){
-        console.log('item added to cart'+event.getSource().get("v.value"));
         var action = component.get("c.addItemToCart");
         action.setParams({
             item: event.getSource().get("v.value")
@@ -64,9 +61,4 @@
         
         $A.enqueueAction(action);
     }, 
-    gotoCart : function(component, event){
-        var cmpEvent  = component.getEvent("cmpReturnEvent");
-        cmpEvent.setParam("Component","Cart");
-        cmpEvent.fire();
-    }
 })

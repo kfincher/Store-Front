@@ -5,14 +5,15 @@
  Description: List out all products for a given category
  
 -->
-<aura:component controller="ProductDisplayController">
+<aura:component controller="ProductDisplayController" extends="c:BaseComponent">
     <aura:attribute name="column" type="List"/>
     <aura:attribute name="allProducts" type="List"/>
     <aura:attribute name="currProductList" type="List"/>
+    <aura:attribute name="productFilter" type="String" default="Dairy"/>
     
     <aura:handler name="init" value="{!this}" action="{!c.init}"/>
     
-    <aura:registerEvent name="cmpReturnEvent" type="c:ChangeDisplayComponent"/> 
+    
     
     <!--<div class="productImage">here</div>-->
     <div id="cart" class="slds-grid">
@@ -26,15 +27,20 @@
         <div class="slds-grid slds-wrap">
             <aura:iteration items="{!v.currProductList}" var="item">
                 
-                <div class="slds-size_3-of-12">  
-                    <img src="{!item.DisplayURL__c}" class="productImage slds-align_absolute-center" style="height:200px"/>
+                <div class="slds-size_3-of-12 " >  
+                    <img onclick="{!c.individualItem}" data-id="{!item.Id}" src="{!item.DisplayURL__c}" class="productImage slds-align_absolute-center" style="height:200px; width:250px;cursor:pointer"/>
                     <br/>
                     <div class="slds-align_absolute-center">
-                        {!item.Name} 
+                        {!item.Name} <br/>
+                    </div>
+                    <div class="slds-align_absolute-center">
+                        ${!item.Price__c}
                     </div>
                     <div class="slds-align_absolute-center">
                         <lightning:button disabled="false" label="Add to Cart" title="Add to Cart" onclick="{!c.addItem}" value="{!item.Id}"/> 
                     </div>
+                    
+                    <br/>
                     
                 </div>
                 
