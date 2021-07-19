@@ -3,8 +3,8 @@
     <aura:attribute name="Product" type="Object"/>
     <aura:handler name="init" value="{!this}" action="{!c.init}"/>
     
-    <lightning:button disabled="false" label="Products" title="Products" onclick="{!c.gotoProducts}"/> 
-    here
+    <lightning:button disabled="false" label="Back" title="Back" onclick="{!c.gotoProducts}"/> 
     {!v.Product.Name}
-    here
+    <img data-id="{!v.Product.Id}" src="{!v.Product.DisplayURL__c}" class="productImage slds-align_absolute-center" style="height:450px; width:500px;"/>
+    {!v.Product.Description__c}
 </aura:component>

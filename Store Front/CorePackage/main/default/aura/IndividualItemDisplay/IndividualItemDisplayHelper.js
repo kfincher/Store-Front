@@ -9,6 +9,9 @@
         
         action.setCallback(this,function(data){
             if(data.getState()==="SUCCESS"){
+                if(data.getReturnValue().DisplayURL__c==null)
+                        data.getReturnValue().DisplayURL__c = "https://www.kwizineenstock.ca/assets/img/frontend/none.png";	
+                   
                 component.set("v.Product",data.getReturnValue());
             }
         })

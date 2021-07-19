@@ -10,17 +10,21 @@ public class ProductDisplayController {
                 pro = [SELECT Id, Price__c, Name, DisplayURL__c, IsActive__c, Item_Type__c FROM Item__c WHERE IsActive__c=true AND Item_Type__c includes (:filter)];
             }
         }
-        
-        System.debug(pro.size());
         return pro;
     }
     @AuraEnabled
     public static void addItemToCart(Id item){
+        System.debug(LOGGINGLEVEL.ERROR,'A.1');
 		Item__c itemName = [SELECT Id, Name FROM Item__c WHERE id=:item];
+        System.debug(LOGGINGLEVEL.ERROR,'A.2');
         Cart__c cart = [SELECT Id, UserID__c FROM Cart__c WHERE UserID__c = :UserInfo.getUserId()];
+        System.debug(LOGGINGLEVEL.ERROR,'A.3');
         if(cart!=null){
+            System.debug(LOGGINGLEVEL.ERROR,'Yup');
 			Cart_Item__c CI = new Cart_Item__c(Item__c = itemName.id, Cart__c=cart.id);
         	insert CI;
+        }else{
+            System.debug(LOGGINGLEVEL.ERROR,'nope');
         }
     }
     @AuraEnabled
