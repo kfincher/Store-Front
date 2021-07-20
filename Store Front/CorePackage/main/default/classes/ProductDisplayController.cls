@@ -1,5 +1,5 @@
 public class ProductDisplayController {
-	@AuraEnabled
+    @AuraEnabled
     public static List<Item__c> search(String filter){
         List<Item__c> pro = new List<Item__c>();
         switch on filter{
@@ -15,32 +15,33 @@ public class ProductDisplayController {
     @AuraEnabled
     public static void addItemToCart(Id item){
         System.debug(LOGGINGLEVEL.ERROR,'A.1');
-		Item__c itemName = [SELECT Id, Name FROM Item__c WHERE id=:item];
+        Item__c itemName = [SELECT Id, Name FROM Item__c WHERE id=:item];
         System.debug(LOGGINGLEVEL.ERROR,'A.2');
-        Cart__c cart = [SELECT Id, UserID__c FROM Cart__c WHERE UserID__c = :UserInfo.getUserId()];
+        List<Cart__c> cart = [SELECT Id, UserID__c FROM Cart__c WHERE UserID__c = :UserInfo.getUserId() LIMIT 1];
+        if(cart.size()==0)
+            ContactCart.createCart(UserInfo.getUserId());
         System.debug(LOGGINGLEVEL.ERROR,'A.3');
-        if(cart!=null){
-            System.debug(LOGGINGLEVEL.ERROR,'Yup');
-			Cart_Item__c CI = new Cart_Item__c(Item__c = itemName.id, Cart__c=cart.id);
-        	insert CI;
-        }else{
-            System.debug(LOGGINGLEVEL.ERROR,'nope');
-        }
+        cart = [SELECT Id, UserID__c FROM Cart__c WHERE UserID__c = :UserInfo.getUserId() LIMIT 1];
+        System.debug(cart);
+        Cart_Item__c CI = new Cart_Item__c(Item__c = itemName.id, Cart__c=cart[0].id);
+        System.debug(LOGGINGLEVEL.ERROR,'A.5');
+        insert CI;
+        System.debug(LOGGINGLEVEL.ERROR,'A.6');
     }
     @AuraEnabled
     public static void removeSingleItem(Id item){
-		//Item__c itemName = [SELECT Id, Name FROM Item__c WHERE id=:item];
+        //Item__c itemName = [SELECT Id, Name FROM Item__c WHERE id=:item];
         Cart__c cart = [SELECT Id, UserID__c FROM Cart__c WHERE UserID__c = :UserInfo.getUserId()];
         if(cart!=null){
-			Cart_Item__c CI = [SELECT Item__r.Name, Cart__r.id, Item__r.id FROM Cart_Item__c WHERE Cart__r.id=:cart.id AND Item__r.id=:item LIMIT 1];
+            Cart_Item__c CI = [SELECT Item__r.Name, Cart__r.id, Item__r.id FROM Cart_Item__c WHERE Cart__r.id=:cart.id AND Item__r.id=:item LIMIT 1];
             System.debug('Debugging: ');
             System.debug(CI);
-        	delete CI;
+            delete CI;
         }
     }
     @AuraEnabled
     public static void removeItemsFromCart(Id item){
-		Item__c itemName = [SELECT Id, Name FROM Item__c WHERE id=:item];
+        Item__c itemName = [SELECT Id, Name FROM Item__c WHERE id=:item];
         Cart__c cart = [SELECT Id, UserID__c FROM Cart__c WHERE UserID__c = :UserInfo.getUserId()];
         List<Cart_item__c> itemToRemove = [SELECT Item__c, Cart__c FROM Cart_Item__c Where Item__c = :itemName.Id AND Cart__c = :cart.Id];
         delete itemToRemove;
