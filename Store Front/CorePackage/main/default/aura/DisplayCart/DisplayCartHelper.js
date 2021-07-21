@@ -7,7 +7,7 @@
                 var rows = new Map();
                 var subTotal = 0; 
                 for(let i = 0;i<data.getReturnValue().length;i++){
-                    console.log(data.getReturnValue()[i].Item__r);
+                    //console.log(data.getReturnValue()[i].Item__r);
                     subTotal += data.getReturnValue()[i].Item__r.Price__c;
                     if(rows.has(data.getReturnValue()[i].Item__r.Name)){
                         let temp = rows.get(data.getReturnValue()[i].Item__r.Name);
@@ -25,7 +25,7 @@
                 for (const [key,value] of rows){
                     returnRows.push(value);
                 }
-               	helper.returnTotal(component, event, subTotal);
+               	helper.returnTotal(component, event);
                 component.set("v.CartList",returnRows);
             }else{
                 console.log("failed");
@@ -82,10 +82,22 @@
         
         $A.enqueueAction(action);
     },
-    returnTotal : function(component, event, subTotal){
-        console.log(subTotal);
-        component.set("v.SubTotal",subTotal.toFixed(2))
-        component.set("v.Total",(subTotal*1.0825).toFixed(2))
-
+    returnTotal : function(component, event){
+        //console.log(subTotal);
+        var action = component.get("c.returnCartTop");
+        
+        action.setCallback(this,function(data){
+            if(data.getState()==="SUCCESS"){
+                console.log("Here")
+                console.log(data.getReturnValue().Subtotal__c)
+                if(data.getReturnValue().Subtotal__c!=null){
+                    data.getReturnValue().Subtotal__c = data.getReturnValue().Subtotal__c.toFixed(2);
+                    data.getReturnValue().Total__c = data.getReturnValue().Total__c.toFixed(2);
+                    component.set("v.Cart",data.getReturnValue());
+                }
+            }
+        })
+        
+		$A.enqueueAction(action);
     }
 })

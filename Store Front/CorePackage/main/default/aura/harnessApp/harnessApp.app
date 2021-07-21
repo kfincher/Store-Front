@@ -12,11 +12,15 @@
     
     <aura:handler name="cmpReturnEvent" event="c:ChangeDisplayComponent" action="{!c.ReturnEvent}" />
     <aura:handler name="IdReturnEvent" event="c:PassRecordId" action="{!c.IdReturnEvent}" />
+    
     <div id="mainBodyStyle">
         <aura:if isTrue="{!v.ComponentDisplay=='Product'}"><c:ProductDisplayList productFilter="{!v.productFilter}"/></aura:if>
         <aura:if isTrue="{!v.ComponentDisplay=='Cart'}"><c:DisplayCart/></aura:if>
         <aura:if isTrue="{!v.ComponentDisplay=='Checkout'}"><c:Checkout/></aura:if>
         <aura:if isTrue="{!v.ComponentDisplay=='IndividualItem'}"><c:IndividualItemDisplay RecordId="{!v.RecordId}"/></aura:if>
         
+    </div>
+    <div class="bodyUnderStyle">
+        <body/>
     </div>
 </aura:application>

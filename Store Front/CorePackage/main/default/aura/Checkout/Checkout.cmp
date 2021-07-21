@@ -1,5 +1,6 @@
 <aura:component extends="c:BaseComponent">
-	<aura:attribute name="fields" type="String[]" default="['Address__c']" />
-    
-    <lightning:recordForm objectApiName="Purchase__c" fields="{!v.fields}" oncancel="{! c.HideComponent }" onsuccess="{! c.SubmitClick }" />
+    <aura:attribute name="fields" type="String[]" default="['Credit_Card__c','Address__c','City__c','Zip_Code__c']" />
+    <div id="mainBody-Checkout">
+        <lightning:recordForm objectApiName="Purchase__c" fields="{!v.fields}" oncancel="{! c.HideComponent }" onsuccess="{! c.SubmitClick }" />
+    </div>
 </aura:component>

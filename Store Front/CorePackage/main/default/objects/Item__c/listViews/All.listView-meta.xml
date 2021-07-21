@@ -5,6 +5,7 @@
     <columns>DisplayURL__c</columns>
     <columns>Item_Type__c</columns>
     <columns>Price__c</columns>
+    <columns>Quantity__c</columns>
     <filterScope>Everything</filterScope>
     <label>All</label>
 </ListView>

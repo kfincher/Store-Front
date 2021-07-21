@@ -2,6 +2,8 @@
     <aura:attribute name="CartList" type="List"/>
     <aura:attribute name="SubTotal" type="String"/>
     <aura:attribute name="Total" type="String"/>
+    <aura:attribute name="Cart" type="Object"/>
+    
     <!--<aura:registerEvent name="cmpReturnEvent" type="c:ChangeDisplayComponent"/> -->
     
     
@@ -27,8 +29,8 @@
                 </div>
             </aura:iteration>
             
-            Subtotal: ${!v.SubTotal} <br/>
-            Total: ${!v.Total} <br/>
+            Subtotal: ${!v.Cart.Subtotal__c} <br/>
+            Total: ${!v.Cart.Total__c} <br/>
             
             <lightning:button disabled="false" label="Checkout" title="Checkout" onclick="{!c.gotoCheckout}"/> 
         </div>

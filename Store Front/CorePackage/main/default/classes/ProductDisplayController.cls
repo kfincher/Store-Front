@@ -14,19 +14,13 @@ public class ProductDisplayController {
     }
     @AuraEnabled
     public static void addItemToCart(Id item){
-        System.debug(LOGGINGLEVEL.ERROR,'A.1');
         Item__c itemName = [SELECT Id, Name FROM Item__c WHERE id=:item];
-        System.debug(LOGGINGLEVEL.ERROR,'A.2');
-        List<Cart__c> cart = [SELECT Id, UserID__c FROM Cart__c WHERE UserID__c = :UserInfo.getUserId() LIMIT 1];
+        List<Cart__c> cart = [SELECT Id, UserID__c FROM Cart__c WHERE UserID__c = :UserInfo.getUserId() AND IsActive__c = true LIMIT 1];
         if(cart.size()==0)
             ContactCart.createCart(UserInfo.getUserId());
-        System.debug(LOGGINGLEVEL.ERROR,'A.3');
         cart = [SELECT Id, UserID__c FROM Cart__c WHERE UserID__c = :UserInfo.getUserId() LIMIT 1];
-        System.debug(cart);
         Cart_Item__c CI = new Cart_Item__c(Item__c = itemName.id, Cart__c=cart[0].id);
-        System.debug(LOGGINGLEVEL.ERROR,'A.5');
         insert CI;
-        System.debug(LOGGINGLEVEL.ERROR,'A.6');
     }
     @AuraEnabled
     public static void removeSingleItem(Id item){
@@ -49,8 +43,21 @@ public class ProductDisplayController {
     @AuraEnabled
     public static List<Cart_Item__c> returnCart(){
         Id userID = UserInfo.getUserId();
-        return [SELECT Item__r.Name, Item__r.Price__c, Cart__r.UserID__c FROM Cart_Item__c WHERE Cart__r.UserID__c = :userID ORDER BY Item__r.Name];
+        cartCheck();
+        return [SELECT Item__r.Name, Item__r.Price__c, 	Cart__r.Subtotal__c, Cart__r.UserID__c FROM Cart_Item__c WHERE Cart__r.UserID__c = :userID AND Cart__r.IsActive__c = true ORDER BY Item__r.Name];
     }
+    @AuraEnabled
+    public static Cart__c returnCartTop(){
+        Id userID = UserInfo.getUserId();
+        return [SELECT Total__c, Subtotal__c, UserID__c FROM Cart__c WHERE UserID__c = :userID AND IsActive__c=true];
+    }
+    
+    public static void cartCheck(){
+        List<Cart__c> cart = [SELECT Id, UserID__c FROM Cart__c WHERE UserID__c = :UserInfo.getUserId() AND IsActive__c = true LIMIT 1];
+        if(cart.size()==0)
+            ContactCart.createCart(UserInfo.getUserId());
+    }
+    
     @AuraEnabled
     public static Item__c returnItem(Id item){
         return [SELECT Name, Price__c, DisplayURL__C, Item_Type__c, Description__c FROM Item__c WHERE ID = :item];
