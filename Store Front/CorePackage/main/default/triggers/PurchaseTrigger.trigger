@@ -1,7 +1,7 @@
 trigger PurchaseTrigger on Purchase__c (before insert, after insert) {
     if(Trigger.isBefore){
         if(Trigger.isInsert){
-            
+            //PurchaseTriggerHelper.UpdateDate(trigger.new);
         }
     }
     if(Trigger.isAfter){

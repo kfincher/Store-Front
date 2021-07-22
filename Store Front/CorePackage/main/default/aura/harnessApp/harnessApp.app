@@ -18,8 +18,9 @@
         <aura:if isTrue="{!v.ComponentDisplay=='Cart'}"><c:DisplayCart/></aura:if>
         <aura:if isTrue="{!v.ComponentDisplay=='Checkout'}"><c:Checkout/></aura:if>
         <aura:if isTrue="{!v.ComponentDisplay=='IndividualItem'}"><c:IndividualItemDisplay RecordId="{!v.RecordId}"/></aura:if>
-        
+        <aura:if isTrue="{!v.ComponentDisplay=='PreviousPurchases'}"><c:PreviousPurchases /></aura:if>
     </div>
+    
     <div class="bodyUnderStyle">
         <body/>
     </div>

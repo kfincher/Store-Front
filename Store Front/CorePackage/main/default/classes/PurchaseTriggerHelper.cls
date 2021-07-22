@@ -4,8 +4,13 @@
 * Description: Meant to perform validation checks on purchases and transfer carts properly
 */
 public class PurchaseTriggerHelper {
+    /*public static void UpdateDate(List<Purchase__c> pur){
+        for(Purchase__c IndPur : pur){
+            IndPur.
+        }
+    }*/
     public static void TransferToPurchase(List<Purchase__c> pur){
-        Cart__c cart = [SELECT Id, IsActive__c from Cart__c WHERE IsActive__c=true];
+        Cart__c cart = [SELECT Id, IsActive__c, UserID__c from Cart__c WHERE UserID__c = :UserInfo.getUserId() AND IsActive__c = true];
         
         cart.Purchase__c = pur[0].id;
         cart.IsActive__c = false;
@@ -45,8 +50,8 @@ public class PurchaseTriggerHelper {
         for(Id key : CIMap.keyset()){
             if(CIMap.get(key).Amount>CIMap.get(key).Quantity){
                 System.debug(key + ' out of stock');
-                sendEmail(CIMap.get(key).Name);
-                pur[0].addError(CIMap.get(key).Name + ' out of stock');
+                //sendEmail(CIMap.get(key).Name);
+                //pur[0].addError(CIMap.get(key).Name + ' out of stock');
             }   
         }
         
@@ -59,12 +64,12 @@ public class PurchaseTriggerHelper {
         update itemsToUpdate;
     }
     
-    public static void sendEmail(String name){
+    /*public static void sendEmail(String name){
                 
         String sMessage='';
         try{
             Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
-                String toRecipients = 'storefrontsf@gmail.com';
+            String toRecipients = 'storefrontsf@gmail.com';
            // String[] toAddresses = toRecipients.split(';', 0);
            String[] toAddresses = new String[]{'storefrontsf@gmail.com' };
             mail.setToAddresses(toAddresses);
@@ -78,5 +83,5 @@ public class PurchaseTriggerHelper {
             sMessage=ex.getLineNumber()+'\n'+ex.getCause()+'\n'+ex.getMessage()+'\n'+ex.getStackTraceString();
         }
         System.debug('Email message: '+sMessage);
-    }
+    }*/
 }

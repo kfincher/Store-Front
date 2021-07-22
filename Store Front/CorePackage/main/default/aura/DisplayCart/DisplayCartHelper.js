@@ -6,6 +6,11 @@
             if(data.getState()==="SUCCESS"){
                 var rows = new Map();
                 var subTotal = 0; 
+                if(data.getReturnValue().length==0){
+                    component.set("v.CartEmpty",true);
+                }else{
+                    component.set("v.CartEmpty",false);
+                }
                 for(let i = 0;i<data.getReturnValue().length;i++){
                     //console.log(data.getReturnValue()[i].Item__r);
                     subTotal += data.getReturnValue()[i].Item__r.Price__c;
@@ -54,13 +59,9 @@
         action.setParams({
             item: event.getSource().get("v.value")
         })
-        console.log('made it here')
         action.setCallback(this,function(data){
             if(data.getState()==="SUCCESS"){
-                console.log('deleted')
                 helper.init(component, event, helper);
-            }else{
-                console.log('oh no')
             }
         })
         
@@ -76,20 +77,16 @@
         action.setCallback(this,function(data){
             if(data.getState()==="SUCCESS"){
                 helper.init(component, event, helper);
-                //alert('successfully removed item!');
             }
         })
         
         $A.enqueueAction(action);
     },
     returnTotal : function(component, event){
-        //console.log(subTotal);
         var action = component.get("c.returnCartTop");
         
         action.setCallback(this,function(data){
             if(data.getState()==="SUCCESS"){
-                console.log("Here")
-                console.log(data.getReturnValue().Subtotal__c)
                 if(data.getReturnValue().Subtotal__c!=null){
                     data.getReturnValue().Subtotal__c = data.getReturnValue().Subtotal__c.toFixed(2);
                     data.getReturnValue().Total__c = data.getReturnValue().Total__c.toFixed(2);

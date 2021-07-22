@@ -3,6 +3,7 @@
     <aura:attribute name="SubTotal" type="String"/>
     <aura:attribute name="Total" type="String"/>
     <aura:attribute name="Cart" type="Object"/>
+    <aura:attribute name="CartEmpty" type="Boolean" default="true"/>
     
     <!--<aura:registerEvent name="cmpReturnEvent" type="c:ChangeDisplayComponent"/> -->
     
@@ -12,6 +13,7 @@
     <div id="slds-theme_backgroundColor-lightblue">
         <div class="slds-m-top_medium slds-m-left_medium">
             <lightning:button disabled="false" label="Products" title="Products" onclick="{!c.gotoProducts}"/> 
+            <lightning:button disabled="false" label="Previous Purchases" title="Previous Purchases" onclick="{!c.gotoPrevious}"/> 
             <br/>
             <aura:iteration items="{!v.CartList}" var="cart">
                 <div class="slds-m-top_medium">
@@ -32,7 +34,7 @@
             Subtotal: ${!v.Cart.Subtotal__c} <br/>
             Total: ${!v.Cart.Total__c} <br/>
             
-            <lightning:button disabled="false" label="Checkout" title="Checkout" onclick="{!c.gotoCheckout}"/> 
+            <lightning:button disabled="{!v.CartEmpty}" label="Checkout" title="Checkout" onclick="{!c.gotoCheckout}"/> 
         </div>
     </div>
 </aura:component>

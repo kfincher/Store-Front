@@ -1,0 +1,17 @@
+<aura:component controller="ProductDisplayController" extends="c:BaseComponent">
+    <aura:attribute name="Purchases" type="List"/>
+    
+    <aura:handler value="{!this}" name="init" action="{!c.init}"/>
+    
+    <lightning:button disabled="false" label="Cart" title="Cart" onclick="{!c.gotoCart}"/> <br/>
+    <aura:iteration items="{!v.Purchases}" var="pur">
+        {!pur.Purchase.Date_Completed__c}<br/>
+        <aura:iteration items="{!pur.Items}" var="items">
+            {!items.Amount} &nbsp; {!items.Item.Item__r.Name} <br/>
+        </aura:iteration>
+        
+        Subtotal: ${!pur.Cart.Subtotal__c} <br/>
+        Total: ${!pur.Cart.Total__c} <br/>
+        <br/><br/>
+    </aura:iteration>
+</aura:component>
