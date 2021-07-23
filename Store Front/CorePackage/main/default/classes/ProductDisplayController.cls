@@ -1,13 +1,26 @@
 global class ProductDisplayController {
     @AuraEnabled
-    public static List<Item__c> search(String filter){
+    public static List<Item__c> search(String filter, String search){
         List<Item__c> pro = new List<Item__c>();
-        switch on filter{
-            when 'All' {
-                pro = [SELECT Id, Price__c, Name, DisplayURL__c, IsActive__c FROM Item__c WHERE IsActive__c=true];
+        search = '%'+search+'%';
+        System.debug(search);
+        if(search=='%null%'){
+            switch on filter{
+                when 'All' {
+                    pro = [SELECT Id, Price__c, Name, DisplayURL__c, IsActive__c FROM Item__c WHERE IsActive__c=true];
+                }
+                when else{
+                    pro = [SELECT Id, Price__c, Name, DisplayURL__c, IsActive__c, Item_Type__c FROM Item__c WHERE IsActive__c=true AND Item_Type__c includes (:filter)];
+                }
             }
-            when else{
-                pro = [SELECT Id, Price__c, Name, DisplayURL__c, IsActive__c, Item_Type__c FROM Item__c WHERE IsActive__c=true AND Item_Type__c includes (:filter)];
+        }else{
+            switch on filter{
+                when 'All' {
+                    pro = [SELECT Id, Price__c, Name, DisplayURL__c, IsActive__c FROM Item__c WHERE IsActive__c=true AND Name LIKE :search];
+                }
+                when else{
+                    pro = [SELECT Id, Price__c, Name, DisplayURL__c, IsActive__c, Item_Type__c FROM Item__c WHERE IsActive__c=true AND Name LIKE :search AND Item_Type__c includes (:filter)];
+                }
             }
         }
         return pro;

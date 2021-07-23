@@ -27,7 +27,7 @@
     },
     updateView : function(component, event){
         var action = component.get("c.search");
-        action.setParams({filter:component.get("v.productFilter")});
+        action.setParams({filter:component.get("v.productFilter"),search:component.get("v.SearchValue")});
         
         action.setCallback(this,function(data){
             if(data.getState()==="SUCCESS"){

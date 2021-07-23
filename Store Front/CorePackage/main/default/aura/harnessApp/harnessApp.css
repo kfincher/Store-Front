@@ -1,8 +1,11 @@
+body.THIS{
+    background-color:orange !important;
+}
 #mainBodyStyle.THIS {
     background-color:#303030;
     color: white;
 }
-.THIS.bodyUnderStyle{
-    background-color:green;
-    height: 100%;
+.THIS.custom-background{
+    height:100vh;
+    background-color:#303030;
 }

@@ -10,21 +10,37 @@
     <aura:attribute name="allProducts" type="List"/>
     <aura:attribute name="currProductList" type="List"/>
     <aura:attribute name="productFilter" type="String" default="Dairy"/>
+    <aura:attribute name="SearchValue" type="String"/>    
     
     <aura:handler name="init" value="{!this}" action="{!c.init}"/>
     
     
     
     <!--<div class="productImage">here</div>-->
-    <div id="cart" class="slds-grid">
-        <div class="slds-size_9-of-12"/>
-        <div class="slds-size_3-of-12">
-            <lightning:button disabled="false" label="Cart" title="Cart" onclick="{!c.gotoCart}"/> 
+    <div id="SearchMove">
+        <div class="slds-form-element slds-lookup slds-m-left_medium" data-select="single">
+            <div class="slds-form-element__control">
+                <div class="slds-input-has-icon slds-input-has-icon--right slds-m-bottom_x-small">
+                    <!--<lightning:buttonIcon iconName="utility:search" variant="bare" onclick="{! c.myAction }" alternativeText="Search" class="slds-input__icon" />-->
+                    <div class="slds-grid" style="height:30px" onkeypress="{!c.keyCheck}">
+                        Search:
+                        
+                        <lightning:input variant="label-inline" value="{!v.SearchValue}" style="color: black;" class="slds-p-around_none slds-size_1-of-6 slds-m-right_x-small"  placeholder="" />
+                        <lightning:button label="Search" class="slds-m-right_small" title="Search" onclick="{! c.init }"/>
+                        <div class="slds-size_6-of-12"/>
+                        <div id="cart" class="slds-size_3-of-12">
+                            <lightning:button disabled="false" label="Cart" title="Cart" onclick="{!c.gotoCart}"/> 
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+    
     <lightning:navigation aura:id="navService"/>
     <div id="container">
         <div class="slds-grid slds-wrap">
+            
             <aura:iteration items="{!v.currProductList}" var="item">
                 
                 <div class="slds-size_3-of-12 " >  

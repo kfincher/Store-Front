@@ -4,11 +4,15 @@
 }
 .THIS {
     background-color:#303030;
+    --sds-c-input-text-color: black;
     color: white;
 }
 .THIS.pointer {
     cursor: pointer;
 }
 #container.THIS {
-    width:1200px;
+    width: 1200px;
+}
+.THIS .slds-form-element__label {
+    color :  white ;
 }

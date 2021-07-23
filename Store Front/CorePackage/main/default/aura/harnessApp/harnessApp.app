@@ -12,6 +12,10 @@
     
     <aura:handler name="cmpReturnEvent" event="c:ChangeDisplayComponent" action="{!c.ReturnEvent}" />
     <aura:handler name="IdReturnEvent" event="c:PassRecordId" action="{!c.IdReturnEvent}" />
+  	<!--<div class="custom-background"/>-->
+    <aura:html tag="style">
+        :root { background-color: #303030; }
+    </aura:html>
     
     <div id="mainBodyStyle">
         <aura:if isTrue="{!v.ComponentDisplay=='Product'}"><c:ProductDisplayList productFilter="{!v.productFilter}"/></aura:if>
@@ -20,8 +24,5 @@
         <aura:if isTrue="{!v.ComponentDisplay=='IndividualItem'}"><c:IndividualItemDisplay RecordId="{!v.RecordId}"/></aura:if>
         <aura:if isTrue="{!v.ComponentDisplay=='PreviousPurchases'}"><c:PreviousPurchases /></aura:if>
     </div>
-    
-    <div class="bodyUnderStyle">
-        <body/>
-    </div>
+
 </aura:application>
