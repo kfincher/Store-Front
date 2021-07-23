@@ -6,7 +6,7 @@
 
 -->
 <aura:application extends="force:slds">
-    <aura:attribute name="ComponentDisplay" type="String" default="Product"/>
+    <aura:attribute name="ComponentDisplay" type="String" default="PostPurchase"/>
     <aura:attribute name="productFilter" type="String" default="All"/>
     <aura:attribute name="RecordId" type="String"/>
     
@@ -23,6 +23,7 @@
         <aura:if isTrue="{!v.ComponentDisplay=='Checkout'}"><c:Checkout/></aura:if>
         <aura:if isTrue="{!v.ComponentDisplay=='IndividualItem'}"><c:IndividualItemDisplay RecordId="{!v.RecordId}"/></aura:if>
         <aura:if isTrue="{!v.ComponentDisplay=='PreviousPurchases'}"><c:PreviousPurchases /></aura:if>
+        <aura:if isTrue="{!v.ComponentDisplay=='PostPurchase'}"><c:PostPurchaseDisplay /></aura:if>
     </div>
 
 </aura:application>

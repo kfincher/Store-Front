@@ -1,0 +1,6 @@
+<aura:component extends="c:BaseComponent">
+    <aura:attribute name="Purchase" type="Object"/>
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    <lightning:button label="Back to Products" title="Back to Products" onclick="{!c.gotoProducts}"/> <br/>
+	Your order was successfully placed! You will receive an email receipt shortly.
+</aura:component>

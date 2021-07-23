@@ -3,7 +3,6 @@ global class ProductDisplayController {
     public static List<Item__c> search(String filter, String search){
         List<Item__c> pro = new List<Item__c>();
         search = '%'+search+'%';
-        System.debug(search);
         if(search=='%null%'){
             switch on filter{
                 when 'All' {
@@ -42,8 +41,6 @@ global class ProductDisplayController {
         Cart__c cart = [SELECT Id, UserID__c FROM Cart__c WHERE UserID__c = :UserInfo.getUserId() AND IsActive__c = true];
         if(cart!=null){
             Cart_Item__c CI = [SELECT Item__r.Name, Cart__r.id, Item__r.id FROM Cart_Item__c WHERE Cart__r.id=:cart.id AND Item__r.id=:item LIMIT 1];
-            System.debug('Debugging: ');
-            System.debug(CI);
             delete CI;
         }
     }

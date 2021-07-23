@@ -1,5 +1,6 @@
 ({
     init : function(component, event) {
+        console.log('yea')
         component.set("v.columns",[
             {label:"Name",fieldname:"Name",type:"text"},
             {label:"image",fieldname:"DisplayUrl",type:"text"}

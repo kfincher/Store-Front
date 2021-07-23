@@ -12,6 +12,8 @@
     <aura:attribute name="productFilter" type="String" default="Dairy"/>
     <aura:attribute name="SearchValue" type="String"/>    
     
+    <aura:attribute name="InputPartOne" type="Integer" default="0"/>
+    
     <aura:handler name="init" value="{!this}" action="{!c.init}"/>
     
     

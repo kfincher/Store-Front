@@ -5,10 +5,10 @@
 */
 public class PurchaseTriggerHelper {
     /*public static void UpdateDate(List<Purchase__c> pur){
-        for(Purchase__c IndPur : pur){
-            IndPur.
-        }
-    }*/
+for(Purchase__c IndPur : pur){
+IndPur.
+}
+}*/
     public static void TransferToPurchase(List<Purchase__c> pur){
         Cart__c cart = [SELECT Id, IsActive__c, UserID__c from Cart__c WHERE UserID__c = :UserInfo.getUserId() AND IsActive__c = true];
         
@@ -47,41 +47,34 @@ public class PurchaseTriggerHelper {
             
         }
         
+        
+        
         for(Id key : CIMap.keyset()){
             if(CIMap.get(key).Amount>CIMap.get(key).Quantity){
                 System.debug(key + ' out of stock');
-                //sendEmail(CIMap.get(key).Name);
-                //pur[0].addError(CIMap.get(key).Name + ' out of stock');
-            }   
+                sendEmail(CIMap.get(key).Name);
+                pur[0].addError(CIMap.get(key).Name + ' out of stock');
+            }  
         }
         
         List<Item__c> itemsToUpdate = [SELECT Name, Id, Quantity__c FROM Item__c Where ID in :CIMap.keyset()]; 
         for(item__c item : itemsToUpdate){
-            System.debug(CIMap.get(item.Id)+' '+item.Quantity__c);
             item.Quantity__c -= CIMap.get(item.Id).Amount;
         }
         
         update itemsToUpdate;
     }
     
-    /*public static void sendEmail(String name){
-                
-        String sMessage='';
-        try{
-            Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
-            String toRecipients = 'storefrontsf@gmail.com';
-           // String[] toAddresses = toRecipients.split(';', 0);
-           String[] toAddresses = new String[]{'storefrontsf@gmail.com' };
+    public static void sendEmail(String name){   
+        Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
+        String toRecipients = 'storefrontsf@gmail.com';
+        String[] toAddresses = new String[]{'storefrontsf@gmail.com' };
             mail.setToAddresses(toAddresses);
-            mail.setSubject('Subject Test Message');
-            mail.setHtmlBody('This is the message body.');
-            Messaging.SendEmailResult [] results = Messaging.sendEmail(new Messaging.SingleEmailMessage[] {mail});
-            sMessage='Success';
-            System.debug(results);
-        }
-        catch(Exception ex){
-            sMessage=ex.getLineNumber()+'\n'+ex.getCause()+'\n'+ex.getMessage()+'\n'+ex.getStackTraceString();
-        }
-        System.debug('Email message: '+sMessage);
-    }*/
+        mail.setReplyTo('kameron.fincher@revature.net');
+        mail.setSenderDisplayName('Kameron Fincher');
+        mail.setSubject('Item out of stock!');
+        String bodyText = name+ ' is currently our of stock! Please place an order no this ASAP.';
+        mail.setHtmlBody(bodyText);
+        
+    }
 }
