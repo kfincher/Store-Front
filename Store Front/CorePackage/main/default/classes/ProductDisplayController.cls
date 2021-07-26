@@ -73,6 +73,35 @@ global class ProductDisplayController {
     }
     
     @AuraEnabled
+    public static PurchaseWrapper PreviousPurchase(){
+        List<PurchaseWrapper> purWrap = new List<PurchaseWrapper>();
+        
+        for(Purchase__c pur :[SELECT Name, Date_Completed__c, (SELECT Subtotal__c, Total__c, Name FROM Carts__r) FROM Purchase__c ORDER BY Date_Completed__c DESC LIMIT 1]){
+            
+            if(pur.Carts__r.size()>0){
+                Map<Id, CartItemWrapper> Items = new Map<Id, CartItemWrapper>();
+                
+                for(Cart_Item__C CI : [SELECT Item__r.Name, Item__r.id , Price__c FROM Cart_Item__c WHERE Cart__r.id = :pur.Carts__r[0].id]){
+                    if(Items.containsKey(CI.Item__r.id)){
+                        CartItemWrapper CIW = Items.get(CI.Item__r.id);
+                        CIW.Amount += 1;
+                        Items.put(CI.Item__r.id,CIW);
+                    }else{
+                        CartItemWrapper CIW = new CartItemWrapper(CI, 1);
+                        Items.put(CI.Item__r.id,CIW);
+                    }
+                    
+                }
+                
+                PurchaseWrapper temp = new PurchaseWrapper(pur,pur.Carts__r[0], Items.values());
+                purWrap.add(temp);
+            }
+            
+        }
+        return purWrap[0];
+    }
+    
+    @AuraEnabled
     public static List<PurchaseWrapper> PreviousPurchases(){
         List<PurchaseWrapper> purWrap = new List<PurchaseWrapper>();
         

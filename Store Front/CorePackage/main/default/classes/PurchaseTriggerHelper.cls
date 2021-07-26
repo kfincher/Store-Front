@@ -10,12 +10,16 @@ IndPur.
 }
 }*/
     public static void TransferToPurchase(List<Purchase__c> pur){
-        Cart__c cart = [SELECT Id, IsActive__c, UserID__c from Cart__c WHERE UserID__c = :UserInfo.getUserId() AND IsActive__c = true];
-        
+        Cart__c cart = [SELECT Id, IsActive__c, UserID__c from Cart__c WHERE UserID__c = :UserInfo.getUserId() AND IsActive__c = true];    
         cart.Purchase__c = pur[0].id;
         cart.IsActive__c = false;
-        
+       
         update cart;
+        
+        ProductDisplayController.PurchaseWrapper PW = ProductDisplayController.PreviousPurchase(); 
+        User thisUser = [SELECT Email FROM User WHERE ID = :UserInfo.getUserId()];
+        sendEmailConfirmation(thisUser.email, PW);
+        
     }
     
     public class ItemWrapper{
@@ -64,7 +68,27 @@ IndPur.
         
         update itemsToUpdate;
     }
-    
+    public static void sendEmailConfirmation(String email, ProductDisplayController.PurchaseWrapper items){   
+        Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
+        //String toRecipients = 'storefrontsf@gmail.com';
+        String[] toAddresses = new String[]{email };
+            mail.setToAddresses(toAddresses);
+        mail.setReplyTo('kameron.fincher@revature.net');
+        mail.setSenderDisplayName('Kameron Fincher');
+        mail.setSubject('Receipt for transaction');
+        String bodyText = 'Your order is on the way!<br>'+purchaseParser(items);
+        mail.setHtmlBody(bodyText);
+        Messaging.SendEmailResult [] results = Messaging.sendEmail(new Messaging.SingleEmailMessage[] {mail});
+    }
+    public static String purchaseParser(ProductDisplayController.PurchaseWrapper items){
+        String resultString = '';
+        for(ProductDisplayController.CartItemWrapper CIW : items.Items){
+            resultString+= '$'+(CIW.Amount*CIW.Item.Price__c)+' '+CIW.Item.Item__r.Name+' x'+CIW.Amount+'<br>';
+        }
+        resultString += +'Subtotal: $'+items.Cart.Subtotal__c+'<br>';
+        resultString += +'Total: $'+items.Cart.Total__c+'<br>';
+        return resultString;
+    }
     public static void sendEmail(String name){   
         Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
         String toRecipients = 'storefrontsf@gmail.com';
@@ -75,6 +99,6 @@ IndPur.
         mail.setSubject('Item out of stock!');
         String bodyText = name+ ' is currently our of stock! Please place an order no this ASAP.';
         mail.setHtmlBody(bodyText);
-        
+        Messaging.SendEmailResult [] results = Messaging.sendEmail(new Messaging.SingleEmailMessage[] {mail});
     }
 }
