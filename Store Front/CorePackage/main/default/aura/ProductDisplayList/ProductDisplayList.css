@@ -5,8 +5,10 @@
 .THIS {
     background-color:#303030;
     --sds-c-input-text-color: black;
+    --sds-c-combobox__input-text-color: yellow;
     color: white;
 }
+
 .THIS.pointer {
     cursor: pointer;
 }
@@ -15,4 +17,7 @@
 }
 .THIS .slds-form-element__label {
     color :  white ;
+}
+.THIS.orderArrow{
+    
 }

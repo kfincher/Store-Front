@@ -20,6 +20,21 @@
         <default>false</default>
         <label>Frozen</label>
     </customValue>
+    <customValue>
+        <fullName>Meat</fullName>
+        <default>false</default>
+        <label>Meat</label>
+    </customValue>
+    <customValue>
+        <fullName>Personal Care &amp; Health</fullName>
+        <default>false</default>
+        <label>Personal Care &amp; Health</label>
+    </customValue>
+    <customValue>
+        <fullName>Pet Care</fullName>
+        <default>false</default>
+        <label>Pet Care</label>
+    </customValue>
     <masterLabel>Item Type</masterLabel>
     <sorted>false</sorted>
 </GlobalValueSet>

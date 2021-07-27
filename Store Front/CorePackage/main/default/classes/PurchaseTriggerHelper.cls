@@ -4,11 +4,6 @@
 * Description: Meant to perform validation checks on purchases and transfer carts properly
 */
 public class PurchaseTriggerHelper {
-    /*public static void UpdateDate(List<Purchase__c> pur){
-for(Purchase__c IndPur : pur){
-IndPur.
-}
-}*/
     public static void TransferToPurchase(List<Purchase__c> pur){
         Cart__c cart = [SELECT Id, IsActive__c, UserID__c from Cart__c WHERE UserID__c = :UserInfo.getUserId() AND IsActive__c = true];    
         cart.Purchase__c = pur[0].id;

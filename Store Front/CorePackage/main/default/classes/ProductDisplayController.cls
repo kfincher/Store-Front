@@ -1,27 +1,20 @@
 global class ProductDisplayController {
     @AuraEnabled
-    public static List<Item__c> search(String filter, String search){
+    public static List<Item__c> search(String filter, String search, String sortValue, String ascVal){
         List<Item__c> pro = new List<Item__c>();
         search = '%'+search+'%';
-        if(search=='%null%'){
-            switch on filter{
-                when 'All' {
-                    pro = [SELECT Id, Price__c, Name, DisplayURL__c, IsActive__c FROM Item__c WHERE IsActive__c=true];
-                }
-                when else{
-                    pro = [SELECT Id, Price__c, Name, DisplayURL__c, IsActive__c, Item_Type__c FROM Item__c WHERE IsActive__c=true AND Item_Type__c includes (:filter)];
-                }
-            }
-        }else{
-            switch on filter{
-                when 'All' {
-                    pro = [SELECT Id, Price__c, Name, DisplayURL__c, IsActive__c FROM Item__c WHERE IsActive__c=true AND Name LIKE :search];
-                }
-                when else{
-                    pro = [SELECT Id, Price__c, Name, DisplayURL__c, IsActive__c, Item_Type__c FROM Item__c WHERE IsActive__c=true AND Name LIKE :search AND Item_Type__c includes (:filter)];
-                }
-            }
-        }
+        search = String.escapeSingleQuotes(search);
+        String query = 'SELECT Id, Price__c, Name, DisplayURL__c, IsActive__c, Item_Type__c FROM Item__c WHERE IsActive__c=true';// ORDER BY Name ASC';
+        
+        if(filter!='All')
+            query += ' AND Item_Type__c includes (:filter)';
+        if(search!='%null%')
+            query += ' AND Name LIKE :search';
+        
+        query += ' ORDER BY ' + sortValue + (ascVal=='↑' ? ' ASC' : ' DESC');
+        
+        pro = Database.query(query);
+        
         return pro;
     }
     @AuraEnabled

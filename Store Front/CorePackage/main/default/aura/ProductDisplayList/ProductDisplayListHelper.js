@@ -27,12 +27,13 @@
             }));*/
     },
     updateView : function(component, event){
+        console.log('In helper before action')
         var action = component.get("c.search");
-        action.setParams({filter:component.get("v.productFilter"),search:component.get("v.SearchValue")});
+        action.setParams({filter:component.get("v.productFilter"),search:component.get("v.SearchValue"),sortValue:component.get("v.SortValue"),ascVal:component.get("v.SortOrder")});
         
         action.setCallback(this,function(data){
             if(data.getState()==="SUCCESS"){
-                //console.log("here")
+                console.log("here")
                 //console.log(data.getReturnValue())
                 let row = data.getReturnValue();
                 for(var i=0;i<row.length;i++){
@@ -47,6 +48,7 @@
         })
         
         $A.enqueueAction(action);
+        console.log('In helper after action')
     },
     addItem : function(component, event){
         var action = component.get("c.addItemToCart");
