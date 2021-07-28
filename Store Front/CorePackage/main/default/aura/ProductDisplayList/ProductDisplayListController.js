@@ -18,21 +18,26 @@
     keyCheck : function(component, event, helper){
         let i = component.get("v.InputPartOne") + 1;
         component.set("v.InputPartOne",i)
-        if(timerRun!=null)
-        	clearTimeout(timerRun);
-        console.log(event.which);
-        var timerRun = setTimeout(function(){
-            if(component.get("v.InputPartOne")==i){
-                console.log(i+' '+component.get("v.SearchValue"))
-        		helper.updateView(component, event);
-                component.set("v.InputPartOne",0);
-            	
-            }
-        }, 1000);
-        
-        if(component.get("v.SearchValue")==""||component.get("v.SearchValue")==null){
-            helper.updateView(component, event);
+        if(helper.timer!=null){
+        	clearTimeout(helper.timer);
         }
+        
+        helper.timer = setTimeout(
+            $A.getCallback(function(){
+                if(component.get("v.InputPartOne")==i){
+                    helper.updateView(component, event);
+                    component.set("v.InputPartOne",0);
+                }
+            }
+                          ), 1000);
+        
+        // Meant to prevent too many server calls while also refreshing results once the input is cleared
+        if((component.get("v.SearchValue")==""||component.get("v.SearchValue")==null)&&!helper.alreadyCleared){
+            helper.alreadyCleared = true;
+            helper.updateView(component, event);
+        }else if(helper.alreadyCleared&&(component.get("v.SearchValue")!=""&&component.get("v.SearchValue")!=null)){
+            helper.alreadyCleared = false;   
+		}
         if (event.which == 13){
         	helper.updateView(component, event);
             component.set("v.InputPartOne",0);

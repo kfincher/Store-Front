@@ -1,6 +1,7 @@
 ({
+    timer : null,
+    alreadyCleared : false,
     init : function(component, event) {
-        console.log('yea')
         component.set("v.columns",[
             {label:"Name",fieldname:"Name",type:"text"},
             {label:"image",fieldname:"DisplayUrl",type:"text"}
@@ -27,14 +28,13 @@
             }));*/
     },
     updateView : function(component, event){
-        console.log('In helper before action')
         var action = component.get("c.search");
-        action.setParams({filter:component.get("v.productFilter"),search:component.get("v.SearchValue"),sortValue:component.get("v.SortValue"),ascVal:component.get("v.SortOrder")});
+       	let tempValue = component.get("v.SearchValue");
+       
+        action.setParams({filter:component.get("v.productFilter"),search:tempValue,sortValue:component.get("v.SortValue"),ascVal:component.get("v.SortOrder")});
         
         action.setCallback(this,function(data){
             if(data.getState()==="SUCCESS"){
-                console.log("here")
-                //console.log(data.getReturnValue())
                 let row = data.getReturnValue();
                 for(var i=0;i<row.length;i++){
                     if(row[i].DisplayURL__c==null){
@@ -46,9 +46,10 @@
                 console.log(data.getState);
             }
         })
-        
+        if(this.timer!=null){
+        	clearTimeout(this.timer);
+        }
         $A.enqueueAction(action);
-        console.log('In helper after action')
     },
     addItem : function(component, event){
         var action = component.get("c.addItemToCart");
