@@ -29,7 +29,7 @@
                     component.set("v.InputPartOne",0);
                 }
             }
-                          ), 1000);
+                          ), 750);
         
         // Meant to prevent too many server calls while also refreshing results once the input is cleared
         if((component.get("v.SearchValue")==""||component.get("v.SearchValue")==null)&&!helper.alreadyCleared){

@@ -13,11 +13,11 @@ public class ProductDisplayControllerTest {
     static void Main(){
         User me = [SELECT Name, FirstName From User Where FirstName='User'];
         
-        System.runAs(me){
-            List<Item__c> All = ProductDisplayController.search('All','Ba');
-            List<Item__c> Dairy = ProductDisplayController.search('Dairy','Ba');
-            List<Item__c> All2 = ProductDisplayController.search('All','null');
-            List<Item__c> Dairy2 = ProductDisplayController.search('Dairy','null');
+        System.runAs(me){ 
+            List<Item__c> All = ProductDisplayController.search('All','Ba','Name', '↑');
+            List<Item__c> Dairy = ProductDisplayController.search('Dairy','Ba','Name', '↑');
+            List<Item__c> All2 = ProductDisplayController.search('All','null','Name', '↑');
+            List<Item__c> Dairy2 = ProductDisplayController.search('Dairy','null','Name', '↑');
             
             System.assertEquals(4, Dairy2.size());
             System.assertEquals(1, Dairy.size());

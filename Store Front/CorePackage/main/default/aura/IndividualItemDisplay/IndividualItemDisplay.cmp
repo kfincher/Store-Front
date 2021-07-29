@@ -4,7 +4,12 @@
     <aura:handler name="init" value="{!this}" action="{!c.init}"/>
     
     <lightning:button disabled="false" label="Back" title="Back" onclick="{!c.gotoProducts}"/> 
-    {!v.Product.Name}
+    
     <img data-id="{!v.Product.Id}" src="{!v.Product.DisplayURL__c}" class="productImage slds-align_absolute-center" style="height:450px; width:500px;"/>
-    {!v.Product.Description__c}
+    <div class="slds-align_absolute-center">
+        {!v.Product.Name}
+    </div>
+    <div class="slds-align_absolute-center">
+        {!v.Product.Description__c}
+    </div>
 </aura:component>
